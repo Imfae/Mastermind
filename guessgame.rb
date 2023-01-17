@@ -1,7 +1,12 @@
 require './board.rb'
+require './messages.rb'
 
+# Class for codebreaker game
 class GuessGame
+  include Messages
+
   CODE_CHARACTERS = %w[Q W E R T Y U I].freeze
+  
   def initialize
     @board = Board.new
     @code = []
@@ -13,6 +18,7 @@ class GuessGame
   def gameplay
     starting_message
     generate_code
+    @allow_duplicate = allow_duplicate?
     12.times do
       @feedback = []
       prompt_input
@@ -20,18 +26,10 @@ class GuessGame
       puts @board.display(@input, @feedback)
       break if code_guessed?
     end
-    closing_message
+    closing_message(code_guessed?)
   end
 
   private
-
-  def starting_message
-    puts 'Welcome to the code-breaking game -- Mastermind!'
-    puts "\n(Please peruse README.md if you're unfamiliar with the game.)"
-    puts "\nWithout further ado... Let the Game Begin!"
-    puts "\nGame setup: Do you want to allow duplicate colors in the generated code? (y/n)"
-    @allow_duplicate = allow_duplicate?
-  end
 
   def allow_duplicate?
     duplicate = gets.chomp.downcase
@@ -88,6 +86,9 @@ class GuessGame
         code_modify[i] = 2
       end
     end
+    input_modify.each_index do |i|
+      input_modify[i] = 3 if input_modify.count(input_modify[i]) > 1
+    end
     code_modify.each_index do |i|
       input_modify.each_index do |j|
         if input_modify[i] == code_modify[j] && i != j
@@ -101,31 +102,4 @@ class GuessGame
   def code_guessed?
     @code == @input
   end
-
-  def closing_message
-    if code_guessed?
-      puts "\nCongratulations! You've broken the Super Secret Code!"
-    else
-      puts "\nOuch! You failed to break the code!"
-    end
-  end
-end
-
-def play_again?
-  play_again = gets.chomp.downcase
-  if play_again.include?('y')
-    true
-  elsif play_again.include?('n')
-    false
-  else
-    puts "\nPlease enter 'y' or 'n'."
-    play_again?
-  end
-end
-
-loop do
-  game = GuessGame.new
-  game.gameplay
-  puts "\nWould you like to play again? (y/n)"
-  play_again? ? redo : break
 end
