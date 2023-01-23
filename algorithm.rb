@@ -1,9 +1,23 @@
+require './modules.rb'
 # Class for computer's algorithm when solving Mastermind
-class Algorithm
+class SolverAlgorithm
+  include CoreOperations
+  
   def initialize
     @master_list = []
     master_list
     @guess_list = @master_list.dup
+  end
+
+  def initial_guess(input)
+    until input.length == 4
+      char = CODE_CHARACTERS[rand(CODE_CHARACTERS.length)]
+      if input.include?(char)
+        redo
+      else
+        2.times { input.push(char) }
+      end
+    end
   end
 
   def master_list
@@ -18,32 +32,14 @@ class Algorithm
     end
   end
 
-  def initial_guess(input)
-    until input.length == 4
-      char = CODE_CHARACTERS[rand(CODE_CHARACTERS.length)]
-      if input.include?(char)
-        redo
-      else
-        2.times { input.push(char) }
-      end
-    end
-  end
-
   def input_elimination(input, previous_result)
-    output = []
     @guess_list.delete_if do |item|
       if previous_result.empty?
-        input.any? do |i|
-          item.include?(i)
-        end
+        input.any? { |i| item.include?(i) }
       else
-        input.any? do |i|
-          item.none?(i)
-        end
+        output = []
         feedback(item, input, output)
-        previous_result.any? do |i|
-          output.count(i) != previous_result.count(i)
-        end
+        previous_result.any? { |i| output.count(i) != previous_result.count(i) }
       end
     end
   end

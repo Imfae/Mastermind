@@ -3,7 +3,8 @@ require './modules.rb'
 
 # Class for codebreaker game
 class GuessGame
-  include Messages, CoreOperations
+  include Messages
+  include CoreOperations
   
   def initialize
     @board = Board.new
@@ -14,7 +15,6 @@ class GuessGame
   end
 
   def gameplay
-    starting_message
     generate_code
     @allow_duplicate = allow_duplicate?
     12.times do
@@ -24,7 +24,7 @@ class GuessGame
       puts @board.display(@input, @feedback)
       break if code_guessed?
     end
-    closing_message(code_guessed?)
+    guessgame_end_message(code_guessed?)
   end
 
   private

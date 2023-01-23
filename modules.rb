@@ -15,12 +15,20 @@ module Messages
     puts "\nGame setup: Do you want to allow duplicate colors in the generated code? (y/n)"
   end
 
-  def closing_message(code_guessed)
+  def guessgame_end_message(code_guessed)
     if code_guessed
       puts "\nCongratulations! You've broken the Super Secret Code!"
     else
       puts "\nOuch! You failed to break the code!"
     end
+  end
+
+  def closing_message
+    puts "\nWould you like to play again? (y/n)"
+  end
+
+  def setgame_end_message(number)
+    puts "\nThe computer cracked your code in #{number} tries!"
   end
 end
 
@@ -32,11 +40,7 @@ module CoreOperations
     else
       until @code.length == 4
         char = CODE_CHARACTERS[rand(CODE_CHARACTERS.length)]
-        if @code.include?(char)
-          redo
-        else
-          @code.push(char)
-        end
+        @code.include?(char) ? redo : @code.push(char)
       end
     end
   end
@@ -63,5 +67,4 @@ module CoreOperations
       end
     end
   end
-
 end
