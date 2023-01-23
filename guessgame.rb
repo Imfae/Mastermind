@@ -1,11 +1,9 @@
 require './board.rb'
-require './messages.rb'
+require './modules.rb'
 
 # Class for codebreaker game
 class GuessGame
-  include Messages
-
-  CODE_CHARACTERS = %w[Q W E R T Y U I].freeze
+  include Messages, CoreOperations
   
   def initialize
     @board = Board.new
@@ -22,7 +20,7 @@ class GuessGame
     12.times do
       @feedback = []
       prompt_input
-      feedback
+      feedback(@input, @code, @feedback)
       puts @board.display(@input, @feedback)
       break if code_guessed?
     end
@@ -43,21 +41,6 @@ class GuessGame
     end
   end
 
-  def generate_code
-    if @allow_duplicate
-      4.times { @code.push(CODE_CHARACTERS[rand(CODE_CHARACTERS.length)]) }
-    else
-      until @code.length == 4
-        char = CODE_CHARACTERS[rand(CODE_CHARACTERS.length)]
-        if @code.include?(char)
-          redo
-        else
-          @code.push(char)
-        end
-      end
-    end
-  end
-
   def prompt_input
     puts "\nChoose a four-character code from the following available characters\n-- Q W E R T Y U I --"
     begin
@@ -73,29 +56,6 @@ class GuessGame
   def input_accept?
     @input.all? do |item|
       CODE_CHARACTERS.include?(item)
-    end
-  end
-
-  def feedback
-    input_modify = @input.dup
-    code_modify = @code.dup
-    4.times do |i|
-      if @input[i] == @code[i]
-        @feedback.push('X')
-        input_modify[i] = 0
-        code_modify[i] = 2
-      end
-    end
-    input_modify.each_index do |i|
-      input_modify[i] = 3 if input_modify.count(input_modify[i]) > 1
-    end
-    code_modify.each_index do |i|
-      input_modify.each_index do |j|
-        if input_modify[i] == code_modify[j] && i != j
-          @feedback.push('O') 
-          input_modify[i] = 1
-        end
-      end
     end
   end
 

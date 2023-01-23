@@ -1,3 +1,4 @@
+# Class for the display of Mastermind board
 class Board
   def initialize
     @display = ''

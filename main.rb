@@ -1,5 +1,7 @@
 require './guessgame.rb'
 
+CODE_CHARACTERS = %w[Q W E R T Y U I].freeze
+
 def play_again?
   play_again = gets.chomp.downcase
   if play_again.include?('y')
