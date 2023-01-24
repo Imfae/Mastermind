@@ -43,3 +43,5 @@ The set of steps has proven to be a successful solution for feedbacking inputs w
 > Delete elements in computer's code and player input that's correct in both character and position, then push feedback 'O' for every character in code that's also in player input.
 
 I've implemented this logic for the game as well. It's under 'Method 2 for duplicate feedbacks' if anyone's interested.
+
+Play the game live here: [Replit](https://replit.com/@Conjurer/Mastermind#main.rb)
