@@ -1,7 +1,7 @@
 require './board.rb'
 require './modules.rb'
 
-# Class for codebreaker game
+# Class for Mastermind's codebreaker game
 class GuessGame
   include Messages
   include CoreOperations

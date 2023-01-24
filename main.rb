@@ -6,6 +6,7 @@ CODE_CHARACTERS = %w[Q W E R T Y U I].freeze
 
 include Messages
 
+# Class for Mastermind game
 class Mastermind
   def self.play
     loop do

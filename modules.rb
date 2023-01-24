@@ -48,23 +48,41 @@ module CoreOperations
   def feedback(input, code, result)
     input_modified = input.dup
     code_modified = code.dup
-    4.times do |i|
-      if input[i] == code[i]
+
+    ## Method 1 for duplicate feedback
+    # 4.times do |i|
+    #   if input[i] == code[i]
+    #     result.push('X')
+    #     input_modified[i] = 0
+    #     code_modified[i] = 2
+    #   end
+    # end
+    # input_modified.each_index do |i|
+    #   input_modified[i] = 0 if input_modified.count(input_modified[i]) > 1
+    # end
+    # code_modified.each_index do |i|
+    #   input_modified.each_index do |j|
+    #     if input_modified[i] == code_modified[j] && i != j
+    #       result.push('O') 
+    #       input_modified[i] = 1
+    #     end
+    #   end
+    # end
+
+    ## Method 2 for duplicate feedback
+    i = 0
+    while i < code_modified.length
+      if input_modified[i] == code_modified[i]
         result.push('X')
-        input_modified[i] = 0
-        code_modified[i] = 2
+        input_modified.delete_at(i)
+        code_modified.delete_at(i)
+      else
+        i += 1
       end
     end
-    input_modified.each_index do |i|
-      input_modified[i] = 0 if input_modified.count(input_modified[i]) > 1
-    end
-    code_modified.each_index do |i|
-      input_modified.each_index do |j|
-        if input_modified[i] == code_modified[j] && i != j
-          result.push('O') 
-          input_modified[i] = 1
-        end
-      end
-    end
+    code_compared = code_modified.dup
+    input_modified.each { |item| code_modified.slice!(code_modified.index(item)) if code_modified.include?(item) }
+    difference = code_compared.length - code_modified.length
+    difference.times { result.push('O') }
   end
 end

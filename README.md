@@ -8,7 +8,17 @@ With each guess, the player is provided feedback in a string of 'X's and/or 'O's
 
 P.S. The duplicate option merely *allows* generating code with duplicate characters. It does not ensure it.
 
+
 ---
+
+
+## Code Creator
+
+In this game, the player is prompted to form a 4-character code from the collection of 8 characters (duplicates are allowed). The computer then uses its solving algorithm to solve for the player's code.
+
+
+---
+
 
 #### Regarding code with duplicate characters:
 
@@ -16,7 +26,7 @@ The logic behind game feedback when player input contains duplicate characters w
 
 The main difficulty I've found was the excessive 'correct in character but not in position' (henceforth referred to as 'O') results returned that dissolves the feedback string into a line of unhelpful nonsense.
 
-I took into account the rules for duplicate input characters in Wikipedia's page for Mastermind and came up with the following set of steps (for code, please refer to `def feedback` in `guessgame.rb`) to determine whether to push the 'O' feedback.
+I took into account the rules for duplicate input characters in Wikipedia's page for Mastermind and came up with the following set of steps (for code, please refer to `def feedback` in `modules.rb`) to determine whether to push the 'O' feedback.
 
  - Step 1: Ignore all 'O' feedback if the feedback comparison involves a character (in player input or corresponding from generated code) that's correct in character and in position.
 
@@ -28,6 +38,8 @@ I took into account the rules for duplicate input characters in Wikipedia's page
 
 The set of steps has proven to be a successful solution for feedbacking inputs with duplicate characters so far. Still, I would greatly appreciate third-party test or assessment for my logic.
 
-**Edit:** I found someone else's code of the duplicate feedback thingy that's amazingly short and concise and uses a *much* simpler logic:
+**Edit:** I found someone else's idea for solving the duplicate feedback thingy that uses a *much* simpler logic:
 
 > Delete elements in computer's code and player input that's correct in both character and position, then push feedback 'O' for every character in code that's also in player input.
+
+I've implemented this logic for the game as well. It's under 'Method 2 for duplicate feedbacks' if anyone's interested.

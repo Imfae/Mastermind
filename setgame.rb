@@ -3,7 +3,7 @@ require './algorithm.rb'
 require './board.rb'
 require './modules.rb'
 
-# Class for codecreator game
+# Class for Mastermind's codecreator game
 class SetGame < GuessGame
   include Messages
   
